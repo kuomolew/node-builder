@@ -1,8 +1,12 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line import/no-extraneous-dependencies
-const fse = require('fs-extra');
+const fs = require('fs-extra');
 
 const structure = require('./structure.json');
+
+exports.default = defaultTask;
+exports.slides = addSlides;
+exports.delete_slides = deleteSlides;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -30,12 +34,34 @@ function addSlides(cb) {
     const slideDir = `./src/slides/${slide}`;
 
     try {
-      fse.copySync(templateDir, slideDir, { overwrite: true });
+      fs.copySync(templateDir, slideDir, { overwrite: true });
       console.log('\x1b[32m', `${slide} created`);
       console.log('\x1b[0m');
     } catch (err) {
       console.error(err);
     }
+  });
+
+  cb();
+}
+
+function deleteSlides(cb) {
+  console.log('delete slides');
+
+  const src = './src/slides';
+  const structureSlides = getSlides(structure);
+  const srcSlides = getFoldersFrom(src);
+  const slidesToDelete = [];
+
+  srcSlides.forEach((slide) => {
+    if (!structureSlides.includes(slide)) slidesToDelete.push(slide);
+  });
+
+  slidesToDelete.forEach((slide) => {
+    if (!slide) return;
+
+    fs.rmSync(`./src/slides/${slide}`, { recursive: true, force: true });
+    console.log('\x1b[31m', `${slide} deleted`);
   });
 
   cb();
@@ -53,11 +79,17 @@ function getSlides(str) {
   return slides;
 }
 
+function getFoldersFrom(path) {
+  const folders = [];
+  fs.readdirSync(path, { withFileTypes: true }).forEach((direct) => {
+    if (direct.isDirectory()) folders.push(direct.name);
+  });
+
+  return folders;
+}
+
 function isSlideCreated(slide) {
   const slidePath = `./src/slides/${slide}`;
 
-  return fse.existsSync(slidePath);
+  return fs.existsSync(slidePath);
 }
-
-exports.default = defaultTask;
-exports.slide = addSlides;
