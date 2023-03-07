@@ -1,0 +1,32 @@
+{
+  "slides": {
+    "slide1": {
+      "name": "Slide 1"
+    },
+    "slide2": {
+      "name": "Slide 2"
+    },
+    "slide3": {
+      "name": "Slide 3"
+    }
+  },
+  "chapters": {
+    "main": {
+      "name": "Main Chapter",
+      "includes": [
+        "slide1",
+        "slide2"
+      ]
+    },
+    "additional": {
+      "name": "Additional chapter",
+      "includes": [
+        "slide3"
+      ]
+    }
+  },
+  "content": [
+    "main",
+    "additional"
+  ]
+}
