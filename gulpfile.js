@@ -7,6 +7,7 @@ const structure = require('./structure.json');
 exports.default = defaultTask;
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
+exports.shared = addShared;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -62,7 +63,32 @@ function deleteSlides(cb) {
 
     fs.rmSync(`./src/slides/${slide}`, { recursive: true, force: true });
     console.log('\x1b[31m', `${slide} deleted`);
+    console.log('\x1b[0m');
   });
+
+  cb();
+}
+
+function addShared(cb) {
+  console.log('add shared');
+
+  const templateDir = './template/shared';
+  const sharedDir = './src/shared';
+
+  // fs.ensureDirSync(sharedDir);
+
+  try {
+    fs.copySync(templateDir, sharedDir, {
+      overwrite: false,
+      errorOnExist: true,
+    });
+    console.log('\x1b[32m', 'shared created');
+    console.log('\x1b[0m');
+  } catch (err) {
+    // console.error(err);
+    console.log('\x1b[31m', 'shared already exists');
+    console.log('\x1b[0m');
+  }
 
   cb();
 }
