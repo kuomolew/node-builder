@@ -1,6 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 const fs = require('fs-extra');
+const gulp = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
 
 const structure = require('./structure.json');
 
@@ -8,6 +11,7 @@ exports.default = defaultTask;
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
+exports.buildStyles = buildStyles;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -118,4 +122,13 @@ function isSlideCreated(slide) {
   const slidePath = `./src/slides/${slide}`;
 
   return fs.existsSync(slidePath);
+}
+
+function buildStyles() {
+  const src = './src/**/*.scss';
+  const dest = './build/';
+  return gulp
+    .src(src)
+    .pipe(sass.sync({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(gulp.dest(dest));
 }
