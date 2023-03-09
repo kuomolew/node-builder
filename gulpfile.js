@@ -11,10 +11,13 @@ exports.default = defaultTask;
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
+exports.build = build;
+
 exports.buildStyles = buildStyles;
 exports.buildHtml = buildHtml;
 exports.buildJs = buildJs;
 exports.buildImg = buildImg;
+exports.buildFonts = buildFonts;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -100,6 +103,18 @@ function addShared(cb) {
   cb();
 }
 
+function build(cb) {
+  fs.rmSync('./build', { recursive: true, force: true });
+
+  buildHtml();
+  buildStyles();
+  buildJs();
+  buildImg();
+  buildFonts();
+
+  cb();
+}
+
 function getSlides(str) {
   const slides = [];
 
@@ -151,5 +166,11 @@ function buildJs() {
 function buildImg() {
   const src = './src/**/*.{gif,jpg,png,svg}';
   const dest = './build/';
+  return gulp.src(src).pipe(gulp.dest(dest));
+}
+
+function buildFonts() {
+  const src = './src/shared/media/fonts/*.{woff,woff2,ttf,otf}';
+  const dest = './build/shared/media/fonts';
   return gulp.src(src).pipe(gulp.dest(dest));
 }
