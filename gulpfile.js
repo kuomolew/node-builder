@@ -14,6 +14,7 @@ exports.shared = addShared;
 exports.buildStyles = buildStyles;
 exports.buildHtml = buildHtml;
 exports.buildJs = buildJs;
+exports.buildImg = buildImg;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -143,6 +144,12 @@ function buildHtml() {
 
 function buildJs() {
   const src = './src/**/*.js';
+  const dest = './build/';
+  return gulp.src(src).pipe(gulp.dest(dest));
+}
+
+function buildImg() {
+  const src = './src/**/*.{gif,jpg,png,svg}';
   const dest = './build/';
   return gulp.src(src).pipe(gulp.dest(dest));
 }
