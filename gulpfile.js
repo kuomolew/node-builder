@@ -13,6 +13,7 @@ exports.delete_slides = deleteSlides;
 exports.shared = addShared;
 exports.buildStyles = buildStyles;
 exports.buildHtml = buildHtml;
+exports.buildJs = buildJs;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -137,5 +138,11 @@ function buildStyles() {
 function buildHtml() {
   const src = './src/slides/**/*.html';
   const dest = './build/slides';
+  return gulp.src(src).pipe(gulp.dest(dest));
+}
+
+function buildJs() {
+  const src = './src/**/*.js';
+  const dest = './build/';
   return gulp.src(src).pipe(gulp.dest(dest));
 }
