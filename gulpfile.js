@@ -12,6 +12,7 @@ exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
 exports.buildStyles = buildStyles;
+exports.buildHtml = buildHtml;
 
 function defaultTask(cb) {
   console.log('gulp test');
@@ -131,4 +132,10 @@ function buildStyles() {
     .src(src)
     .pipe(sass.sync({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(gulp.dest(dest));
+}
+
+function buildHtml() {
+  const src = './src/slides/**/*.html';
+  const dest = './build/slides';
+  return gulp.src(src).pipe(gulp.dest(dest));
 }
