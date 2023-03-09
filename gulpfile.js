@@ -4,14 +4,20 @@
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
+const fileinclude = require('gulp-file-include');
 
 const structure = require('./structure.json');
+const settings = require('./settings.json');
 
 exports.default = defaultTask;
+
+exports.start = start;
+exports.build = build;
+
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
-exports.build = build;
+exports.includes = addIncludes;
 
 exports.buildStyles = buildStyles;
 exports.buildHtml = buildHtml;
@@ -24,19 +30,29 @@ function defaultTask(cb) {
   cb();
 }
 
+function start(cb) {
+  addSlides(cb);
+  addShared(cb);
+  addIncludes(cb);
+
+  cb();
+}
+
+function build(cb) {
+  fs.rmSync('./build', { recursive: true, force: true });
+
+  buildHtml();
+  buildStyles();
+  buildJs();
+  buildImg();
+  buildFonts();
+
+  cb();
+}
+
 function addSlides(cb) {
   console.log('add slides');
-  let slides = getSlides(structure);
-
-  // eslint-disable-next-line
-  slides = slides.filter((slide) => {
-    if (isSlideCreated(slide)) {
-      console.log('\x1b[33m', `${slide} already exists`);
-      console.log('\x1b[0m');
-    } else {
-      return slide;
-    }
-  });
+  const slides = getSlides(structure);
 
   slides.forEach((slide) => {
     if (!slide) return;
@@ -45,11 +61,16 @@ function addSlides(cb) {
     const slideDir = `./src/slides/${slide}`;
 
     try {
-      fs.copySync(templateDir, slideDir, { overwrite: true });
+      fs.copySync(templateDir, slideDir, {
+        overwrite: false,
+        errorOnExist: true,
+      });
       console.log('\x1b[32m', `${slide} created`);
       console.log('\x1b[0m');
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      console.log('\x1b[31m', `${slide} already exists`);
+      console.log('\x1b[0m');
     }
   });
 
@@ -85,8 +106,6 @@ function addShared(cb) {
   const templateDir = './template/shared';
   const sharedDir = './src/shared';
 
-  // fs.ensureDirSync(sharedDir);
-
   try {
     fs.copySync(templateDir, sharedDir, {
       overwrite: false,
@@ -103,14 +122,22 @@ function addShared(cb) {
   cb();
 }
 
-function build(cb) {
-  fs.rmSync('./build', { recursive: true, force: true });
+function addIncludes(cb) {
+  const templateDir = './template/_includes';
+  const includesDir = './src/_includes';
 
-  buildHtml();
-  buildStyles();
-  buildJs();
-  buildImg();
-  buildFonts();
+  try {
+    fs.copySync(templateDir, includesDir, {
+      overwrite: false,
+      errorOnExist: true,
+    });
+    console.log('\x1b[32m', '_includes created');
+    console.log('\x1b[0m');
+  } catch (err) {
+    // console.error(err);
+    console.log('\x1b[31m', '_includes already exists');
+    console.log('\x1b[0m');
+  }
 
   cb();
 }
@@ -136,12 +163,6 @@ function getFoldersFrom(path) {
   return folders;
 }
 
-function isSlideCreated(slide) {
-  const slidePath = `./src/slides/${slide}`;
-
-  return fs.existsSync(slidePath);
-}
-
 function buildStyles() {
   const src = './src/**/*.scss';
   const dest = './build/';
@@ -154,7 +175,17 @@ function buildStyles() {
 function buildHtml() {
   const src = './src/slides/**/*.html';
   const dest = './build/slides';
-  return gulp.src(src).pipe(gulp.dest(dest));
+  return gulp
+    .src(src)
+    .pipe(
+      fileinclude({
+        context: {
+          mode: settings.mode,
+        },
+        // eslint-disable-next-line comma-dangle
+      })
+    )
+    .pipe(gulp.dest(dest));
 }
 
 function buildJs() {
