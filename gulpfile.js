@@ -19,6 +19,7 @@ exports.build = build; // builds dev project
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
+exports.structure = addStructure;
 // exports.includes = addIncludes;
 
 exports.buildStyles = buildStyles;
@@ -123,6 +124,25 @@ function addShared(cb) {
     // console.error(err);
     console.log('\x1b[31m', 'shared already exists');
     console.log('\x1b[0m');
+  }
+
+  addStructure(cb);
+
+  cb();
+}
+
+function addStructure(cb) {
+  console.log('update structure');
+
+  const file = './structure.json';
+  const sharedDir = './src/shared/structure.json';
+
+  try {
+    fs.copyFileSync(file, sharedDir);
+    console.log('\x1b[32m', 'structure updated');
+    console.log('\x1b[0m');
+  } catch (err) {
+    console.error(err);
   }
 
   cb();

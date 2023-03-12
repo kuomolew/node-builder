@@ -1,13 +1,16 @@
 {
   "slides": {
     "slide1": {
-      "name": "Slide 1"
+      "name": "Slide 1",
+      "veeva": ""
     },
     "slide2": {
-      "name": "Slide 2"
+      "name": "Slide 2",
+      "veeva": ""
     },
     "slide3": {
-      "name": "Slide 3"
+      "name": "Slide 3",
+      "veeva": ""
     }
   },
   "chapters": {
