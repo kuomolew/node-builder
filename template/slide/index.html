@@ -10,14 +10,13 @@
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
-    @@if (mode === 'dev') { @@include('./../../_includes/base/_dev_css.html') }
-    @@if (mode === 'veeva') {
-    @@include('./../../_includes/base/_veeva_css.html') }
+    <link rel="stylesheet" href="__shared__/css/main.css" />
     <link rel="stylesheet" href="./css/index.css" />
   </head>
   <body></body>
 
-  @@if (mode === 'dev') { @@include('./../../_includes/base/_dev_js.html') }
-  @@if (mode === 'veeva') { @@include('./../../_includes/base/_veeva_js.html') }
+  <script src="__shared__/js/assets/veeva-library.js"></script>
+  <script src="__shared__/js/assets/jquery-3.6.3.min.js"></script>
+  <script src="__shared__/js/main.js"></script>
   <script src="index.js"></script>
 </html>

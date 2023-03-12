@@ -4,7 +4,8 @@
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
-const fileinclude = require('gulp-file-include');
+// const fileinclude = require('gulp-file-include');
+const replace = require('gulp-replace');
 
 const structure = require('./structure.json');
 const settings = require('./settings.json');
@@ -17,7 +18,7 @@ exports.build = build;
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
-exports.includes = addIncludes;
+// exports.includes = addIncludes;
 
 exports.buildStyles = buildStyles;
 exports.buildHtml = buildHtml;
@@ -33,7 +34,7 @@ function defaultTask(cb) {
 function start(cb) {
   addSlides(cb);
   addShared(cb);
-  addIncludes(cb);
+  // addIncludes(cb);
 
   cb();
 }
@@ -122,25 +123,25 @@ function addShared(cb) {
   cb();
 }
 
-function addIncludes(cb) {
-  const templateDir = './template/_includes';
-  const includesDir = './src/_includes';
+// function addIncludes(cb) {
+//   const templateDir = './template/_includes';
+//   const includesDir = './src/_includes';
 
-  try {
-    fs.copySync(templateDir, includesDir, {
-      overwrite: false,
-      errorOnExist: true,
-    });
-    console.log('\x1b[32m', '_includes created');
-    console.log('\x1b[0m');
-  } catch (err) {
-    // console.error(err);
-    console.log('\x1b[31m', '_includes already exists');
-    console.log('\x1b[0m');
-  }
+//   try {
+//     fs.copySync(templateDir, includesDir, {
+//       overwrite: false,
+//       errorOnExist: true,
+//     });
+//     console.log('\x1b[32m', '_includes created');
+//     console.log('\x1b[0m');
+//   } catch (err) {
+//     // console.error(err);
+//     console.log('\x1b[31m', '_includes already exists');
+//     console.log('\x1b[0m');
+//   }
 
-  cb();
-}
+//   cb();
+// }
 
 function getSlides(str) {
   const slides = [];
@@ -177,15 +178,21 @@ function buildHtml() {
   const dest = './build/slides';
   return gulp
     .src(src)
-    .pipe(
-      fileinclude({
-        context: {
-          mode: settings.mode,
-        },
-        // eslint-disable-next-line comma-dangle
-      })
-    )
+    .pipe(replace('__shared__', replaceShared()))
     .pipe(gulp.dest(dest));
+}
+
+function replaceShared() {
+  const { mode } = settings;
+  let pathToShared = '';
+
+  if (mode === 'dev') {
+    pathToShared = './../../shared';
+  } else if (mode === 'veeva') {
+    pathToShared = './shared';
+  }
+
+  return pathToShared;
 }
 
 function buildJs() {

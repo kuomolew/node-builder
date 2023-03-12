@@ -23,6 +23,7 @@
     "eslint-plugin-import": "^2.27.5",
     "gulp": "^4.0.2",
     "gulp-file-include": "^2.3.0",
+    "gulp-replace": "^1.1.4",
     "gulp-sass": "^5.1.0",
     "sass": "^1.58.3"
   },
