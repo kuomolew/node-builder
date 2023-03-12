@@ -3,6 +3,7 @@
 
 const fs = require('fs-extra');
 const gulp = require('gulp');
+const { watch } = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 // const fileinclude = require('gulp-file-include');
 const replace = require('gulp-replace');
@@ -10,10 +11,10 @@ const replace = require('gulp-replace');
 const structure = require('./structure.json');
 const settings = require('./settings.json');
 
-exports.default = defaultTask;
+exports.default = defaultTask; // watcher to dev mode
 
-exports.start = start;
-exports.build = build;
+exports.start = start; // add files from template to src
+exports.build = build; // builds dev project
 
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
@@ -27,7 +28,11 @@ exports.buildImg = buildImg;
 exports.buildFonts = buildFonts;
 
 function defaultTask(cb) {
-  console.log('gulp test');
+  watch('./src/slides/**/*.html', buildHtml);
+  watch('./src/**/*.scss', buildStyles);
+  watch('./src/**/*.js', buildJs);
+  watch('./src/**/*.{gif,jpg,png,svg}', buildImg);
+  watch('./src/shared/media/fonts/*.{woff,woff2,ttf,otf}', buildFonts);
   cb();
 }
 
