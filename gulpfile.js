@@ -135,7 +135,7 @@ function addStructure(cb) {
   console.log('update structure');
 
   const file = './structure.json';
-  const sharedDir = './src/shared/structure.json';
+  const sharedDir = './src/shared/js/structure.json';
 
   try {
     fs.copyFileSync(file, sharedDir);
@@ -221,7 +221,7 @@ function replaceShared() {
 }
 
 function buildJs() {
-  const src = './src/**/*.js';
+  const src = './src/**/*.{js,json}';
   const dest = './build/';
   return gulp.src(src).pipe(gulp.dest(dest));
 }
