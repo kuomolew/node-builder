@@ -20,6 +20,7 @@ exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
 exports.shared = addShared;
 exports.structure = addStructure;
+exports.settings = addSettings;
 // exports.includes = addIncludes;
 
 exports.buildStyles = buildStyles;
@@ -127,6 +128,7 @@ function addShared(cb) {
   }
 
   addStructure(cb);
+  addSettings(cb);
 
   cb();
 }
@@ -140,6 +142,23 @@ function addStructure(cb) {
   try {
     fs.copyFileSync(file, sharedDir);
     console.log('\x1b[32m', 'structure updated');
+    console.log('\x1b[0m');
+  } catch (err) {
+    console.error(err);
+  }
+
+  cb();
+}
+
+function addSettings(cb) {
+  console.log('update settings');
+
+  const file = './settings.json';
+  const sharedDir = './src/shared/js/settings.json';
+
+  try {
+    fs.copyFileSync(file, sharedDir);
+    console.log('\x1b[32m', 'settings updated');
     console.log('\x1b[0m');
   } catch (err) {
     console.error(err);
