@@ -20,5 +20,6 @@ module.exports = {
         allowNamedExports: false,
       },
     ],
+    'linebreak-style': 0,
   },
 };
