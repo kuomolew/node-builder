@@ -11,10 +11,10 @@ const replace = require('gulp-replace');
 const structure = require('./structure.json');
 const settings = require('./settings.json');
 
-exports.default = defaultTask; // watcher to dev mode
+exports.default = defaultTask;
 
-exports.start = start; // add files from template to src
-exports.build = build; // builds dev project
+exports.start = start;
+exports.build = build;
 
 exports.slides = addSlides;
 exports.delete_slides = deleteSlides;
