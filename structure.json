@@ -11,6 +11,18 @@
     "slide3": {
       "name": "Slide 3",
       "veeva": ""
+    },
+    "slide4": {
+      "name": "Slide 4",
+      "veeva": ""
+    },
+    "slide5": {
+      "name": "Slide 5",
+      "veeva": ""
+    },
+    "slide6": {
+      "name": "Slide 6",
+      "veeva": ""
     }
   },
   "chapters": {
@@ -26,10 +38,20 @@
       "includes": [
         "slide3"
       ]
+    },
+    "hiddenChapter": {
+      "name": "Hidden chaper",
+      "includes": [
+        "slide4",
+        "slide5",
+        "slide6"
+      ]
     }
   },
+  "hiddenChapters": ["hiddenChapter"],
   "content": [
     "main",
+    "hiddenChapter",
     "additional"
   ]
 }
