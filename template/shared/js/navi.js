@@ -5,6 +5,12 @@ window.navi = {
   slides() {
     return getSlides(structure);
   },
+  allSlides() {
+    return getAllSlides(structure);
+  },
+  hiddenSlides() {
+    return getHiddenSlides(structure);
+  },
   currentSlide() {
     return getCurrentSlide();
   },
@@ -38,10 +44,35 @@ hammerTime.on('swipeleft swiperight', (event) => {
   }
 });
 
-function getSlides(str) {
+function getAllSlides(str) {
   const slides = [];
 
   str.content.forEach((chapter) => {
+    str.chapters[chapter].includes.forEach((slide) => {
+      slides.push(slide);
+    });
+  });
+
+  return slides;
+}
+
+function getSlides(str) {
+  const slides = [];
+  const hiddenSlides = getHiddenSlides(str);
+
+  str.content.forEach((chapter) => {
+    str.chapters[chapter].includes.forEach((slide) => {
+      if (!hiddenSlides.includes(slide)) slides.push(slide);
+    });
+  });
+
+  return slides;
+}
+
+function getHiddenSlides(str) {
+  const slides = [];
+
+  str.hiddenChapters.forEach((chapter) => {
     str.chapters[chapter].includes.forEach((slide) => {
       slides.push(slide);
     });
