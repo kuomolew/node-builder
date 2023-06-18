@@ -2,4 +2,6 @@
 // eslint-disable-next-line no-undef, func-names
 $(window).on('load', function () {
   console.log('window loaded');
+  navi.next();
+  navi.prev();
 });

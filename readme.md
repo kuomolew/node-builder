@@ -26,13 +26,17 @@ gulp buildFonts - builds fonts
 
 NAVIGATION FUNCTIONS
 
-navi.slides() - get all slides from the structure
+navi.slides() - get non hidden slides from the structure (slides where you're able to move by swipe)
+
+navi.allSlides() - get all slides from the structure
+
+navi.hiddenSlides() - get hidden slides from the structure
 
 navi.currentSlide() - get current slide
 
-navi.next() - go to next slide if some
+navi.next(slide) - if attribute "slide" populated - go to it with left swipe. Otherwise go to next slide according to structure if some
 
-navi.prev() - go to previous slide if some
+navi.prev(slide) - if attribute "slide" populated - go to it with right swipe. Otherwise go to previous slide according to structure if some
 
 navi.goTo('slide') - go to specific slide
 
