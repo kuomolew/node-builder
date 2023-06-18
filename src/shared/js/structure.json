@@ -1,0 +1,57 @@
+{
+  "slides": {
+    "slide1": {
+      "name": "Slide 1",
+      "veeva": ""
+    },
+    "slide2": {
+      "name": "Slide 2",
+      "veeva": ""
+    },
+    "slide3": {
+      "name": "Slide 3",
+      "veeva": ""
+    },
+    "slide4": {
+      "name": "Slide 4",
+      "veeva": ""
+    },
+    "slide5": {
+      "name": "Slide 5",
+      "veeva": ""
+    },
+    "slide6": {
+      "name": "Slide 6",
+      "veeva": ""
+    }
+  },
+  "chapters": {
+    "main": {
+      "name": "Main Chapter",
+      "includes": [
+        "slide1",
+        "slide2"
+      ]
+    },
+    "additional": {
+      "name": "Additional chapter",
+      "includes": [
+        "slide3"
+      ]
+    },
+    "hiddenChapter": {
+      "name": "Hidden chaper",
+      "includes": [
+        "slide4",
+        "slide5",
+        "slide6"
+      ]
+    }
+  },
+  "hiddenChapters": ["hiddenChapter"],
+  "content": [
+    "main",
+    "hiddenChapter",
+    "additional"
+  ]
+}
