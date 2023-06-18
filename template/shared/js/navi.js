@@ -14,15 +14,33 @@ window.navi = {
   currentSlide() {
     return getCurrentSlide();
   },
-  next() {
-    getNextSlide()
-      ? this.goTo(getNextSlide())
-      : console.log('There is no next slide');
+  next(slide) {
+    const body = document.getElementsByTagName('body')[0];
+
+    const hammerTime = new Hammer(body);
+    hammerTime.on('swipeleft', () => {
+      if (slide) {
+        this.goTo(slide);
+      } else {
+        getNextSlide()
+          ? this.goTo(getNextSlide())
+          : console.log('There is no next slide');
+      }
+    });
   },
-  prev() {
-    getPrevSlide()
-      ? this.goTo(getPrevSlide())
-      : console.log('There is no previous slide');
+  prev(slide) {
+    const body = document.getElementsByTagName('body')[0];
+
+    const hammerTime = new Hammer(body);
+    hammerTime.on('swiperight', () => {
+      if (slide) {
+        this.goTo(slide);
+      } else {
+        getPrevSlide()
+          ? this.goTo(getPrevSlide())
+          : console.log('There is no previous slide');
+      }
+    });
   },
   goTo(slide) {
     if (settings.mode === 'veeva') {
@@ -32,17 +50,6 @@ window.navi = {
     }
   },
 };
-
-const body = document.getElementsByTagName('body')[0];
-
-const hammerTime = new Hammer(body);
-hammerTime.on('swipeleft swiperight', (event) => {
-  if (event.type === 'swipeleft') {
-    navi.next();
-  } else if (event.type === 'swiperight') {
-    navi.prev();
-  }
-});
 
 function getAllSlides(str) {
   const slides = [];
